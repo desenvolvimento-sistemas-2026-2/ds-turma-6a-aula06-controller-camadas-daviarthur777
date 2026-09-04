@@ -2,13 +2,13 @@ package br.ceub.desenvolvimento.aula06.view;
 
 import javax.swing.JOptionPane;
 
-import br.ceub.desenvolvimento.aula06.service.AlunoService;
+import br.ceub.desenvolvimento.aula06.controller.AlunoController;
 
 public class MenuAlunos {
-    private AlunoService service;
+    private AlunoController controller;
 
-    public MenuAlunos(AlunoService service) {
-        this.service = service;
+    public MenuAlunos(AlunoController controller) {
+        this.controller = controller;
     }
 
     public void iniciar() {
@@ -17,26 +17,29 @@ public class MenuAlunos {
             String menu = "1 - Cadastrar aluno\n"
                     + "2 - Listar alunos\n"
                     + "3 - Buscar aluno por nome\n"
+                    + "4 - Ver quantidade de alunos\n"
                     + "0 - Sair";
-            opcao = lerInteiro(menu, 0, 3);
+            opcao = lerInteiro(menu, 0, 4);
 
             if (opcao == 1) {
                 cadastrarAluno();
             } else if (opcao == 2) {
-                mostrar(service.listarTodos());
+                mostrar(controller.listarTodos());
             } else if (opcao == 3) {
                 String nome = lerTexto("Nome para busca:");
-                mostrar(service.buscarPorNome(nome));
+                mostrar(controller.buscarPorNome(nome));
+            } else if (opcao == 4) {
+                mostrar("Total de alunos cadastrados: " + controller.quantidade());
             }
         }
-        mostrar("Programa encerrado. Total de alunos: " + service.quantidade());
+        mostrar("Programa encerrado. Total de alunos: " + controller.quantidade());
     }
 
     private void cadastrarAluno() {
         String nome = lerTexto("Nome do aluno:");
         String curso = lerTexto("Curso:");
         int semestre = lerInteiro("Semestre:", 1, 10);
-        String mensagem = service.cadastrar(nome, semestre, curso);
+        String mensagem = controller.cadastrar(nome, semestre, curso);
         mostrar(mensagem);
     }
 
